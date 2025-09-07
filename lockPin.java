@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class lockPin {
 
@@ -7,7 +9,8 @@ public class lockPin {
     private JLabel display;
     private String input = "";
     private String dispOutput = "";
-    private String correctPIN;
+    private String setCorrectPin;
+    private String correctPin;
 
     public lockPin() {
         JFrame f = new JFrame("Lock PIN");
@@ -36,7 +39,73 @@ public class lockPin {
         keypad.add(clear);
         keypad.add(enter);
 
+        panel.add(keypad, BorderLayout.CENTER);
+
+        f.add(panel);
+        f.pack();
+		f.setVisible(true);
+		f.setSize(600,400);
+		f.setLocationRelativeTo(null);
+        
+        ActionListener numbListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JButton source = (JButton)e.getSource();
+                String digits = source.getText();
+                digits = correctPin;
+                input += digits;
+                dispOutput = "*";
+                display.setText(dispOutput);
+            }           
+        };
+
+        for (int i = 0; i <= 9; i++) {
+        buttons[i].addActionListener(numbListener);
+         }
+
+        clear.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	input = "";
+            	dispOutput = "";
+                if (correctPin != null && !correctPin.isEmpty()) {
+                    display.setText("Enter PIN.");
+                } else {
+                    display.setText("Set a new PIN.");
+                }
+            }
+        });
+        
+        enter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(input.equals(correctPin)) {
+                	display.setText("OPEN");
+                } else {
+                	display.setText("WRONG PIN");
+                }
+                
+                input = "";
+                dispOutput = "";
+            }
+        });
+
+        resetPin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (correctPin != null && !correctPin.isEmpty()) {
+                    correctPin = "";
+                    display.setText("PIN reset successfully.");
+                } else {
+                    display.setText("You haven't set a PIN yet.");
+                }
+            }
+        });
+
+
     }
+
+    
 
     public static void main(String[] args) {
         new lockPin();
