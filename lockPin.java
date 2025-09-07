@@ -90,7 +90,6 @@ public class lockPin {
         eight.addActionListener(numberListener);
         nine.addActionListener(numberListener);
         zero.addActionListener(numberListener);
-        resetPIN.addActionListener(numberListener);
         
         
         clear.addActionListener(new ActionListener() {
