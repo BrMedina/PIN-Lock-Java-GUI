@@ -1,13 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class lockPin {
 	
-	private JButton one, two, three, four, five, six, seven, eight, nine, zero,
-					clear, enter;
-
+	private JButton one, two, three, four, five, six, seven, eight, nine, zero, clear, enter, resetPIN;
 	private JLabel display;
 	private String input = "";
 	private String displayOutput = "";
@@ -27,7 +24,6 @@ public class lockPin {
             display = new JLabel("Enter a new PIN", SwingConstants.CENTER);
         }
 
-
 		display.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 32));
 		display.setPreferredSize(new Dimension(600, 100));
 		panel.add(display, BorderLayout.NORTH);
@@ -46,6 +42,7 @@ public class lockPin {
 		zero = new JButton("0");
 		clear = new JButton("CLEAR");
 		enter = new JButton("Enter");
+        resetPIN = new JButton("Reset PIN");
 		
 		keypad.add(one);
 		keypad.add(two);
@@ -59,6 +56,7 @@ public class lockPin {
 		keypad.add(zero);
 		keypad.add(clear);
 		keypad.add(enter);
+        keypad.add(resetPIN);
 		
 		panel.add(keypad, BorderLayout.CENTER);
 		
@@ -83,6 +81,7 @@ public class lockPin {
         eight.addActionListener(numberListener);
         nine.addActionListener(numberListener);
         zero.addActionListener(numberListener);
+        resetPIN.addActionListener(numberListener);
         
         
         clear.addActionListener(new ActionListener() {
@@ -97,18 +96,29 @@ public class lockPin {
         enter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (correctPIN != null && !correctPIN.isEmpty()) {
-                    if (input.equals(correctPIN)) {
-                	display.setText("OPEN");
-                    } else {
-                	    display.setText("WRONG PIN");
-                    }
-                } else {
-                    input = correctPIN;
+                if (correctPIN == null || correctPIN.isEmpty()) {
+                    correctPIN = input;
                     display.setText("PIN set!");
+                } else {
+                    if (input.equals(correctPIN)) {
+                        display.setText("Open");
+                    } else {
+                        display.setText("Wrong PIN");
+                    }
                 }
                 input = "";
                 displayOutput = "";
+            }
+        });
+
+        resetPIN.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (correctPIN == null || correctPIN.isEmpty()) {
+                    display.setText("You haven't set a PIN yet.");
+                } else {
+                    correctPIN = "";
+                }
             }
         });
 		
