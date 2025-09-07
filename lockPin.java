@@ -8,15 +8,17 @@ public class lockPin {
 	private JLabel display;
 	private String input = "";
 	private String displayOutput = "";
-    private String setCorrectPIN = "";
 	private String correctPIN = "";
 
 	
 	public lockPin() {
 		JFrame f = new JFrame ("Lock PIN");
 		JPanel panel = new JPanel(new BorderLayout(5,5));
-        JPanel keypad = new JPanel(new GridLayout(4,3));
-        JPanel displayArea = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel keypad = new JPanel(new BorderLayout(5,5));
+        JPanel numberGrid = new JPanel(new GridLayout(3,3,5,5));
+        JPanel bottomRow = new JPanel(new GridLayout(1,3,5,5));
+        JPanel bottomRow2 = new JPanel(new FlowLayout(FlowLayout.CENTER,5,5));
+        JPanel bottomPanel = new JPanel(new BorderLayout(5,5));
 		
         if (correctPIN != null && !correctPIN.isEmpty()) {
             display = new JLabel("Enter PIN", SwingConstants.CENTER);
@@ -44,20 +46,27 @@ public class lockPin {
 		enter = new JButton("Enter");
         resetPIN = new JButton("Reset PIN");
 		
-		keypad.add(one);
-		keypad.add(two);
-		keypad.add(three);
-		keypad.add(four);
-		keypad.add(five);
-		keypad.add(six);
-		keypad.add(seven);
-		keypad.add(eight);
-		keypad.add(nine);
-		keypad.add(zero);
-		keypad.add(clear);
-		keypad.add(enter);
-        keypad.add(resetPIN);
-		
+		numberGrid.add(one);
+		numberGrid.add(two);
+		numberGrid.add(three);
+		numberGrid.add(four);
+		numberGrid.add(five);
+		numberGrid.add(six);
+		numberGrid.add(seven);
+		numberGrid.add(eight);
+		numberGrid.add(nine);
+
+		bottomRow.add(zero);
+		bottomRow.add(clear);
+		bottomRow.add(enter);
+        bottomRow2.add(resetPIN);
+
+        bottomPanel.add(bottomRow, BorderLayout.NORTH);
+        bottomPanel.add(bottomRow2, BorderLayout.SOUTH);
+
+        keypad.add(numberGrid, BorderLayout.CENTER);
+        keypad.add(bottomPanel, BorderLayout.SOUTH);
+
 		panel.add(keypad, BorderLayout.CENTER);
 		
 		ActionListener numberListener = new ActionListener() {
@@ -114,11 +123,10 @@ public class lockPin {
         resetPIN.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (correctPIN == null || correctPIN.isEmpty()) {
-                    display.setText("You haven't set a PIN yet.");
-                } else {
                     correctPIN = "";
-                }
+                    input = "";
+                    displayOutput = "";
+                    display.setText("PIN reset successfully.");
             }
         });
 		
