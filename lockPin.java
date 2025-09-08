@@ -4,7 +4,7 @@ import java.awt.event.*;
 
 public class lockPin {
 	
-	private JButton one, two, three, four, five, six, seven, eight, nine, zero, clear, enter, resetPIN;
+	private JButton one, two, three, four, five, six, seven, eight, nine, zero, clear, enter, resetPIN, backSpace;
 	private JLabel display;
 	private String input = "";
 	private String displayOutput = "";
@@ -17,7 +17,7 @@ public class lockPin {
         JPanel keypad = new JPanel(new BorderLayout(5,5));
         JPanel numberGrid = new JPanel(new GridLayout(3,3,5,5));
         JPanel bottomRow = new JPanel(new GridLayout(1,3,5,5));
-        JPanel bottomRow2 = new JPanel(new FlowLayout(FlowLayout.CENTER,5,5));
+        JPanel bottomRow2 = new JPanel(new GridLayout(1,2,5,5));
         JPanel bottomPanel = new JPanel(new BorderLayout(5,5));
 		
         if (correctPIN != null && !correctPIN.isEmpty()) {
@@ -45,6 +45,7 @@ public class lockPin {
 		clear = new JButton("CLEAR");
 		enter = new JButton("Enter");
         resetPIN = new JButton("Reset PIN");
+        backSpace = new JButton("Backspace");
 		
 		numberGrid.add(one);
 		numberGrid.add(two);
@@ -60,6 +61,7 @@ public class lockPin {
 		bottomRow.add(clear);
 		bottomRow.add(enter);
         bottomRow2.add(resetPIN);
+        bottomRow2.add(backSpace);
 
         bottomPanel.add(bottomRow, BorderLayout.NORTH);
         bottomPanel.add(bottomRow2, BorderLayout.SOUTH);
@@ -90,7 +92,6 @@ public class lockPin {
         eight.addActionListener(numberListener);
         nine.addActionListener(numberListener);
         zero.addActionListener(numberListener);
-        
         
         clear.addActionListener(new ActionListener() {
             @Override
@@ -133,6 +134,17 @@ public class lockPin {
                 }
             }
         });
+
+        backSpace.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!input.isEmpty() && !displayOutput.isEmpty()) {
+                    input = input.substring(0, input.length() - 1);
+                    displayOutput = displayOutput.substring(0, displayOutput.length() - 1);
+                    display.setText(displayOutput);
+                }
+            }
+        });
 		
 		f.add(panel);
 		f.setVisible(true);
@@ -142,6 +154,5 @@ public class lockPin {
 
 	public static void main(String[] args) {
 		new lockPin();
-        
 	}
 }
