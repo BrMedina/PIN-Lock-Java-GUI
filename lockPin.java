@@ -10,7 +10,7 @@ public class lockPin {
 	private String displayOutput = "";
 	private String correctPIN = "";
 
-	
+
 	public lockPin() {
 		JFrame f = new JFrame ("Lock PIN");
 		JPanel panel = new JPanel(new BorderLayout(5,5));
@@ -90,7 +90,6 @@ public class lockPin {
         eight.addActionListener(numberListener);
         nine.addActionListener(numberListener);
         zero.addActionListener(numberListener);
-        resetPIN.addActionListener(numberListener);
         
         
         clear.addActionListener(new ActionListener() {
@@ -105,16 +104,18 @@ public class lockPin {
         enter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (correctPIN == null || correctPIN.isEmpty()) {
+                if (input == null || input.isEmpty()) {
+                    display.setText("You have not inputted a PIN!");
+                } else if (correctPIN == null || correctPIN.isEmpty()) {
                     correctPIN = input;
-                    display.setText("PIN set!");
+                    display.setText("PIN set! Your PIN: " + correctPIN);
                 } else {
                     if (input.equals(correctPIN)) {
-                        display.setText("Open");
+                        display.setText("Open!");
                     } else {
-                        display.setText("Wrong PIN");
-                    }
+                    display.setText("Wrong PIN!");
                 }
+            }
                 input = "";
                 displayOutput = "";
             }
@@ -123,10 +124,13 @@ public class lockPin {
         resetPIN.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (correctPIN == null || correctPIN.isEmpty()) {
+                    display.setText("You have not yet set a PIN!");
+                } else {
                     correctPIN = "";
                     input = "";
-                    displayOutput = "";
-                    display.setText("PIN reset successfully.");
+                    display.setText("PIN reset success!");
+                }
             }
         });
 		
@@ -138,5 +142,6 @@ public class lockPin {
 
 	public static void main(String[] args) {
 		new lockPin();
+        
 	}
 }
